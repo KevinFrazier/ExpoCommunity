@@ -11,18 +11,16 @@ import * as constants from '../constants'
 
 function HomeScreen({navigation, route, props}) {
   
-  function goToSignUp(){
-    console.log("Going to Sign Up")
-    navigation.navigate('SignUp')
-  }
-  function goToMainApp(){
-    console.log("Going to Chats")
-    navigation.navigate(constants.APP_PATH)
-  }
+  let abort = new AbortController()
   let [user, setUser] = useContext(UserContext)
   let [username, setUserName]= useState('')
   let [password, setPassword]= useState('')
 
+  function goToSignUp(){
+    console.log("Going to Sign Up")
+    navigation.navigate('SignUp')
+  }
+  
   console.log({username, password})
   return (
     <View style={styles.container}>
@@ -43,7 +41,8 @@ function HomeScreen({navigation, route, props}) {
           onPress = {() => loginByPassword((status, result) => {
             if(status == "success"){
               setUser(result)
-              goToChooseChat()
+              abort.abort()
+              navigation.navigate(constants.APP_PATH)
             }
           }, username, password) }
           text = {"Login"}

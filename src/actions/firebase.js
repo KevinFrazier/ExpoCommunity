@@ -4,7 +4,6 @@ import 'firebase/auth'
 import credentials from '../../credentials'
 
 firebase.initializeApp(credentials)
-firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
 
 export const getAuthInstance = () => {
     return firebase.auth;

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Ionicons } from 'react-native-vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AuthNavigator from './AuthNavigator'
 import ChatNavigator from './ChatNavigator'
@@ -34,14 +34,14 @@ const BottomTabNavigator = () => {
           name={constants.CHAT_PATH}
           component={ChatNavigator}
           options={{
-            tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+            tabBarIcon: ({ color }) => <TabBarIcon name="ios-chatboxes" color={color} />,
           }}
         />
         <BottomTab.Screen
           name={constants.ACCOUNT_PATH}
           component={AccountNavigator}
           options={{
-            tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+            tabBarIcon: ({ color }) => <TabBarIcon name="ios-person" color={color} />,
           }}
         />
       </BottomTab.Navigator>
