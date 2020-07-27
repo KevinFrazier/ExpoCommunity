@@ -1,35 +1,57 @@
-import React, { Component } from "react";
+import React, { Component, useState, useContext } from "react";
 import { StyleSheet, View, Text, TouchableOpacity} from "react-native";
 import MaterialUnderlineTextbox2 from "../components/MaterialUnderlineTextbox";
 import MaterialRightIconTextbox1 from "../components/MaterialRightIconTextbox";
 import MaterialButtonDanger from "../components/MaterialButtonDanger";
 import Svg, { Ellipse } from "react-native-svg";
 
+import {loginByPassword} from '../actions/firebase'
+import { UserContext } from "../states";
+import * as constants from '../constants'
+
 function HomeScreen({navigation, route, props}) {
+  
   function goToSignUp(){
     console.log("Going to Sign Up")
     navigation.navigate('SignUp')
   }
-  function goToChooseChat(){
+  function goToMainApp(){
     console.log("Going to Chats")
-    navigation.navigate('ChooseChatScreen')
+    navigation.navigate(constants.APP_PATH)
   }
+  let [user, setUser] = useContext(UserContext)
+  let [username, setUserName]= useState('')
+  let [password, setPassword]= useState('')
+
+  console.log({username, password})
   return (
     <View style={styles.container}>
       <View style={styles.rect}>
         <MaterialUnderlineTextbox2
           style={styles.materialUnderlineTextbox2}
-        ></MaterialUnderlineTextbox2>
-        <MaterialRightIconTextbox1
+          placeholder = "UserName"
+          onChangeText = {(text) => setUserName(text)}
+        />
+        <MaterialUnderlineTextbox2
           style={styles.materialRightIconTextbox1}
-        ></MaterialRightIconTextbox1>
+          placeholder = "Password"
+          onChangeText = {(text) => setPassword(text)}
+        />
+
         <MaterialButtonDanger
           style={styles.materialButtonDanger}
-          buttonPress = {goToChooseChat}
-        ></MaterialButtonDanger>
+          onPress = {() => loginByPassword((status, result) => {
+            if(status == "success"){
+              setUser(result)
+              goToChooseChat()
+            }
+          }, username, password) }
+          text = {"Login"}
+        />
+
       </View>
       <TouchableOpacity onPress={goToSignUp}>
-        <Text style={styles.newUserSignUp}>New User? Sign Up</Text>
+        <Text style={styles.newUserSignUp}>Sign Up</Text>
       </TouchableOpacity>
       <View style={styles.ellipseStack}>
         <Svg viewBox="0 0 219 152" style={styles.ellipse}>

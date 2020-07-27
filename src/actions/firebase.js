@@ -4,7 +4,7 @@ import 'firebase/auth'
 import credentials from '../../credentials'
 
 firebase.initializeApp(credentials)
-//firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
 
 export const getAuthInstance = () => {
     return firebase.auth;
@@ -37,14 +37,29 @@ const getProviderConfig = (provider) => {
             break;
     }
 }
+
+export const createAccount = (callback, email, password) => {
+    
+
+    console.log("createAccount")
+    
+    return firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then((result) => {
+        loginByPassword(callback, email, password)
+    })
+    .catch((err) => {
+        callback("failure", err)
+    })
+}
+
 export const loginByPassword = (callback, email, password) => {
 
     return firebase.auth().signInWithEmailAndPassword(email, password)
     .then((result) => {
-        callback(result)
+        callback("success", result)
     })
     .catch(err => {
-        callback(err)
+        callback("failure", err)
     })
 } 
 

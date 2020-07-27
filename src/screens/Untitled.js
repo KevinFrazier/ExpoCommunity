@@ -1,13 +1,25 @@
-import React, { Component } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React, { Component, useState, useContext } from "react";
+import { StyleSheet, View, Text, Alert } from "react-native";
 import Svg, { Ellipse } from "react-native-svg";
 import MaterialUnderlineTextbox from "../components/MaterialUnderlineTextbox";
 import MaterialUnderlineTextbox1 from "../components/MaterialUnderlineTextbox";
 import MaterialRightIconTextbox from "../components/MaterialRightIconTextbox";
 import MaterialButtonDanger1 from "../components/MaterialButtonDanger";
 
+import {createAccount} from '../actions/firebase'
+import {UserContext} from '../states/'
+import * as constants from '../constants'
+
 function SignUp(props) {
+
+
+  let [user, setUser ]= useContext(UserContext)
+  let abort = new AbortController()
+  let [username, setUsername] = useState('')
+  let [password, setPassword] = useState('')
+  
   return (
+    
     <View style={styles.container}>
       <View style={styles.ellipse1Stack}>
         <Svg viewBox="0 0 219 152" style={styles.ellipse1}>
@@ -24,18 +36,33 @@ function SignUp(props) {
         <Text style={styles.logo1}>LOGO</Text>
       </View>
       <View style={styles.rect1}>
+
         <MaterialUnderlineTextbox
           style={styles.materialUnderlineTextbox}
-        ></MaterialUnderlineTextbox>
-        <MaterialUnderlineTextbox1
+          placeholder = {"UserName"}
+          onChangeText = {(text) => setUsername(text)}
+        />
+        
+        <MaterialUnderlineTextbox
           style={styles.materialUnderlineTextbox1}
-        ></MaterialUnderlineTextbox1>
-        <MaterialRightIconTextbox
-          style={styles.materialRightIconTextbox}
-        ></MaterialRightIconTextbox>
+          placeholder={"Password"}
+          onChangeText = {(text) => {setPassword(text)}}
+        />
+
         <MaterialButtonDanger1
           style={styles.materialButtonDanger1}
-        ></MaterialButtonDanger1>
+          text = "Sign Up"
+          onPress = {() => {
+                
+            createAccount((status, result) => {
+              
+              if(status == "success"){
+                setUser(result)
+                abort.abort()
+                props.navigation.navigate(constants.APP_PATH)
+              }
+          }, username, password)}}
+        />
       </View>
     </View>
   );

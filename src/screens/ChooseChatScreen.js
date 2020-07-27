@@ -1,10 +1,18 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import { StyleSheet, View, Image, Text } from "react-native";
 import Svg, { Ellipse } from "react-native-svg";
 import MaterialSearchBar from "../components/MaterialSearchBar";
 import MaterialHeader14 from "../components/MaterialHeader";
-
+import {UserContext} from '../states'
 function ChooseChatScreen(props) {
+
+  let [user,setUser] = useContext(UserContext)
+  
+  console.log("ChooseChatScreen")
+
+  console.log("states: ", {
+    user
+  })
   return (
     <View style={styles.container}>
       <View style={styles.rect3Stack}>
