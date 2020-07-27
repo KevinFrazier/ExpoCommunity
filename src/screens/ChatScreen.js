@@ -6,6 +6,7 @@ import IoniconsIcon from "react-native-vector-icons/Ionicons";
 import Svg, { Ellipse } from "react-native-svg";
 import MaterialFixedLabelTextbox2 from "../components/MaterialFixedLabelTextbox";
 import MaterialButtonHamburger5 from "../components/MaterialButtonHamburger";
+import Footer from '../components/MaterialBasicFooter'
 
 function ChatScreen(props) {
   return (
@@ -183,8 +184,9 @@ function ChatScreen(props) {
                   rx={20}
                   ry={21}
                 ></Ellipse>
+
               </Svg>
-              
+              <Footer/>
             </View>
           </View>
         </View>
